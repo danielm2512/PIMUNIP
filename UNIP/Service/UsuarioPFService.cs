@@ -9,33 +9,41 @@ using System.Net.Http;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.UI;
+using UNIP.Models;
 
 namespace UNIP.Service
 {
     public class UsuarioPFService
     {
-            public int Salvar(ServiceInterface.IUsuarioPF usuario, int idCaptacao)
+            public int Salvar(ServiceInterface.IUsuarioPF usuario)
             {
                 var idRetorno = 0;
-                using (UNIPPIMEntities save = new UNIPPIMEntities())
+                using (DB_UNIPPIMEntities4 save = new DB_UNIPPIMEntities4())
                 {
                     try
                     {
-                        Models.DT_USUARIO_PF usuarioDT = new Models.DT_USUARIO_PF();
-                        usuarioDT.Nome = usuario.Nome;
-                        usuarioDT.CPF = usuario.CPF.Replace("_", "").Trim(); ;
-                        usuarioDT.Endereco = usuario.Endereco.Replace("_", "").Trim(); ;
-                        usuarioDT.Complemento = usuario.Complemento;
-                        usuarioDT.Numero = usuario.Numero.Replace("_", "").Trim();
-                        usuarioDT.Cidade = usuario.Cidade;
-                        usuarioDT.Telefone = usuario.Telefone.Replace("_", "").Trim(); ;
-                        usuarioDT.Cep = usuario.Cep.Replace("_", "").Trim();
-                        usuarioDT.NomeMae = usuario.NomeMae;
-                        if (existeCPF == null )
+                    Models.DT_Pessoa usuarioPessoa = new Models.DT_Pessoa();
+                    Models.DT_Endereco usuarioEndereco = new Models.DT_Endereco();
+                    Models.DT_Telefone usuarioTelefone = new Models.DT_Telefone();
+                    Models.DT_Telefone_Tipo usuarioTelefoneTipo = new Models.DT_Telefone_Tipo();
+
+                    usuarioPessoa.ID = usuario.ID;
+                    usuarioPessoa.NOME = usuario.Nome;
+                    usuarioPessoa.CPF = usuario.CPF;
+                    usuarioEndereco.ID = usuario.ID;
+                    usuarioPessoa.ENDERECO = usuarioEndereco.ID;
+
+
+                    var existeCPF = (from u in save.DT_Pessoa
+                                     where (u.CPF == usuario.CPF)
+                                     select u).FirstOrDefault();
+
+                    if (existeCPF == null )
                         {
-                            save.DT_USUARIO_PF.Add(usuarioDT);
+                            save.DT_Pessoa.Add(usuarioPessoa);
                             save.SaveChanges();
-                            idRetorno = usuarioDT.ID;
+                            idRetorno = usuarioPessoa.ID;
                         }
 
                         else
@@ -54,4 +62,3 @@ namespace UNIP.Service
 
         }
     }
-}
