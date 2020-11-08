@@ -1,0 +1,2 @@
+C:\Users\danie\source\repos\UNIP\UNIP\obj\Release\UNIP.csprojAssemblyReference.cache
+C:\Users\danie\source\repos\UNIP\UNIP\obj\Release\UNIP.csproj.CoreCompileInputs.cache

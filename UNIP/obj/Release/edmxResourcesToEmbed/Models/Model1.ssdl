@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_UNIPPIMModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DB_UNIPPIMModelStoreContainer">
+    <EntitySet Name="Enderecoes" EntityType="DB_UNIPPIMModel.Store.Enderecoes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Pessoas" EntityType="DB_UNIPPIMModel.Store.Pessoas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Telefones" EntityType="DB_UNIPPIMModel.Store.Telefones" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Telefone_Tipo" EntityType="DB_UNIPPIMModel.Store.Telefone_Tipo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Pessoa_Telefone" EntityType="DB_UNIPPIMModel.Store.Pessoa_Telefone" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Pessoa_Endereco" Association="DB_UNIPPIMModel.Store.FK_Pessoa_Endereco">
+      <End Role="Endereco" EntitySet="Enderecoes" />
+      <End Role="Pessoa" EntitySet="Pessoas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Telefone_Telefone_Tipo" Association="DB_UNIPPIMModel.Store.FK_Telefone_Telefone_Tipo">
+      <End Role="Telefone_Tipo" EntitySet="Telefone_Tipo" />
+      <End Role="Telefone" EntitySet="Telefones" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pessoa_Telefone_Pessoa" Association="DB_UNIPPIMModel.Store.FK_Pessoa_Telefone_Pessoa">
+      <End Role="Pessoa" EntitySet="Pessoas" />
+      <End Role="Pessoa_Telefone" EntitySet="Pessoa_Telefone" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pessoa_Telefone_Telefone" Association="DB_UNIPPIMModel.Store.FK_Pessoa_Telefone_Telefone">
+      <End Role="Telefone" EntitySet="Telefones" />
+      <End Role="Pessoa_Telefone" EntitySet="Pessoa_Telefone" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Enderecoes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="LOGRADOURO" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="NUMERO" Type="int" Nullable="false" />
+    <Property Name="CEP" Type="int" Nullable="false" />
+    <Property Name="BAIRRO" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="CIDADE" Type="varchar" Nullable="false" MaxLength="30" />
+    <Property Name="ESTADO" Type="varchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Pessoas">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NOME" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="CPF" Type="bigint" Nullable="false" />
+    <Property Name="ENDERECO" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Telefones">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="NUMERO" Type="int" Nullable="false" />
+    <Property Name="DDD" Type="int" Nullable="false" />
+    <Property Name="TIPO" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Telefone_Tipo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="TIPO" Type="varchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Pessoa_Telefone">
+    <Key>
+      <PropertyRef Name="Pessoas_ID" />
+      <PropertyRef Name="Telefones_ID" />
+    </Key>
+    <Property Name="Pessoas_ID" Type="int" Nullable="false" />
+    <Property Name="Telefones_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Pessoa_Endereco">
+    <End Role="Endereco" Type="DB_UNIPPIMModel.Store.Enderecoes" Multiplicity="1" />
+    <End Role="Pessoa" Type="DB_UNIPPIMModel.Store.Pessoas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Endereco">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Pessoa">
+        <PropertyRef Name="ENDERECO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Telefone_Telefone_Tipo">
+    <End Role="Telefone_Tipo" Type="DB_UNIPPIMModel.Store.Telefone_Tipo" Multiplicity="1" />
+    <End Role="Telefone" Type="DB_UNIPPIMModel.Store.Telefones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Telefone_Tipo">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Telefone">
+        <PropertyRef Name="TIPO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pessoa_Telefone_Pessoa">
+    <End Role="Pessoa" Type="DB_UNIPPIMModel.Store.Pessoas" Multiplicity="1" />
+    <End Role="Pessoa_Telefone" Type="DB_UNIPPIMModel.Store.Pessoa_Telefone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Pessoa_Telefone">
+        <PropertyRef Name="Pessoas_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pessoa_Telefone_Telefone">
+    <End Role="Pessoa_Telefone" Type="DB_UNIPPIMModel.Store.Pessoa_Telefone" Multiplicity="*" />
+    <End Role="Telefone" Type="DB_UNIPPIMModel.Store.Telefones" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Telefone">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Pessoa_Telefone">
+        <PropertyRef Name="Telefones_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
