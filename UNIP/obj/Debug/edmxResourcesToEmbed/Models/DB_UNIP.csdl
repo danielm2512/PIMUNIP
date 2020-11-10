@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_UNIPPIMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="DT_Endereco">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="LOGRADOURO" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NUMERO" Type="Int32" Nullable="false" />
+    <Property Name="CEP" Type="Int32" Nullable="false" />
+    <Property Name="BAIRRO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CIDADE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ESTADO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="DT_Pessoa" Relationship="Self.FK_Pessoa_Endereco" FromRole="DT_Endereco" ToRole="DT_Pessoa" />
+  </EntityType>
+  <EntityType Name="DT_Pessoa">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NOME" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CPF" Type="Int64" Nullable="false" />
+    <Property Name="ENDERECO" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DT_Endereco" Relationship="Self.FK_Pessoa_Endereco" FromRole="DT_Pessoa" ToRole="DT_Endereco" />
+    <NavigationProperty Name="DT_Telefone" Relationship="Self.DT_Pessoa_Telefone" FromRole="DT_Pessoa" ToRole="DT_Telefone" />
+  </EntityType>
+  <EntityType Name="DT_Telefone">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="NUMERO" Type="Int32" Nullable="false" />
+    <Property Name="DDD" Type="Int32" Nullable="false" />
+    <Property Name="TIPO" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DT_Telefone_Tipo" Relationship="Self.FK_Telefone_Telefone_Tipo" FromRole="DT_Telefone" ToRole="DT_Telefone_Tipo" />
+    <NavigationProperty Name="DT_Pessoa" Relationship="Self.DT_Pessoa_Telefone" FromRole="DT_Telefone" ToRole="DT_Pessoa" />
+  </EntityType>
+  <EntityType Name="DT_Telefone_Tipo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="TIPO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="DT_Telefone" Relationship="Self.FK_Telefone_Telefone_Tipo" FromRole="DT_Telefone_Tipo" ToRole="DT_Telefone" />
+  </EntityType>
+  <Association Name="FK_Pessoa_Endereco">
+    <End Role="DT_Endereco" Type="Self.DT_Endereco" Multiplicity="1" />
+    <End Role="DT_Pessoa" Type="Self.DT_Pessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DT_Endereco">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="DT_Pessoa">
+        <PropertyRef Name="ENDERECO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Telefone_Telefone_Tipo">
+    <End Role="DT_Telefone_Tipo" Type="Self.DT_Telefone_Tipo" Multiplicity="1" />
+    <End Role="DT_Telefone" Type="Self.DT_Telefone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DT_Telefone_Tipo">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="DT_Telefone">
+        <PropertyRef Name="TIPO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DT_Pessoa_Telefone">
+    <End Role="DT_Pessoa" Type="Self.DT_Pessoa" Multiplicity="*" />
+    <End Role="DT_Telefone" Type="Self.DT_Telefone" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="DB_UNIPPIMEntities4" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DT_Endereco" EntityType="Self.DT_Endereco" />
+    <EntitySet Name="DT_Pessoa" EntityType="Self.DT_Pessoa" />
+    <EntitySet Name="DT_Telefone" EntityType="Self.DT_Telefone" />
+    <EntitySet Name="DT_Telefone_Tipo" EntityType="Self.DT_Telefone_Tipo" />
+    <AssociationSet Name="FK_Pessoa_Endereco" Association="Self.FK_Pessoa_Endereco">
+      <End Role="DT_Endereco" EntitySet="DT_Endereco" />
+      <End Role="DT_Pessoa" EntitySet="DT_Pessoa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Telefone_Telefone_Tipo" Association="Self.FK_Telefone_Telefone_Tipo">
+      <End Role="DT_Telefone_Tipo" EntitySet="DT_Telefone_Tipo" />
+      <End Role="DT_Telefone" EntitySet="DT_Telefone" />
+    </AssociationSet>
+    <AssociationSet Name="DT_Pessoa_Telefone" Association="Self.DT_Pessoa_Telefone">
+      <End Role="DT_Pessoa" EntitySet="DT_Pessoa" />
+      <End Role="DT_Telefone" EntitySet="DT_Telefone" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

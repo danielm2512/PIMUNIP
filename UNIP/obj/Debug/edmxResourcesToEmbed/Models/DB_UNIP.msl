@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_UNIPPIMModelStoreContainer" CdmEntityContainer="DB_UNIPPIMEntities4">
+    <EntitySetMapping Name="DT_Endereco">
+      <EntityTypeMapping TypeName="DB_UNIPPIMModel.DT_Endereco">
+        <MappingFragment StoreEntitySet="DT_Endereco">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LOGRADOURO" ColumnName="LOGRADOURO" />
+          <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+          <ScalarProperty Name="CEP" ColumnName="CEP" />
+          <ScalarProperty Name="BAIRRO" ColumnName="BAIRRO" />
+          <ScalarProperty Name="CIDADE" ColumnName="CIDADE" />
+          <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DT_Pessoa">
+      <EntityTypeMapping TypeName="DB_UNIPPIMModel.DT_Pessoa">
+        <MappingFragment StoreEntitySet="DT_Pessoa">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NOME" ColumnName="NOME" />
+          <ScalarProperty Name="CPF" ColumnName="CPF" />
+          <ScalarProperty Name="ENDERECO" ColumnName="ENDERECO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DT_Telefone">
+      <EntityTypeMapping TypeName="DB_UNIPPIMModel.DT_Telefone">
+        <MappingFragment StoreEntitySet="DT_Telefone">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+          <ScalarProperty Name="DDD" ColumnName="DDD" />
+          <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DT_Telefone_Tipo">
+      <EntityTypeMapping TypeName="DB_UNIPPIMModel.DT_Telefone_Tipo">
+        <MappingFragment StoreEntitySet="DT_Telefone_Tipo">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="DT_Pessoa_Telefone" TypeName="DB_UNIPPIMModel.DT_Pessoa_Telefone" StoreEntitySet="DT_Pessoa_Telefone">
+      <EndProperty Name="DT_Pessoa">
+        <ScalarProperty Name="ID" ColumnName="ID_PESSOA" />
+      </EndProperty>
+      <EndProperty Name="DT_Telefone">
+        <ScalarProperty Name="ID" ColumnName="ID_TELEFONE" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
